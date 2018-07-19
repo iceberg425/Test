@@ -15,7 +15,7 @@ output: html_document
 
 
 ```{r}
-gravity <- read.csv("C:/Users/johno/Dropbox/Econ Grad/Dissertation/Proposal/South-South/Paper_2/Data/Gravity.csv")
+gravity <- read.csv("Gravity.csv")
 
 knitr::kable(
   head(gravity),

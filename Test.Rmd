@@ -1,0 +1,59 @@
+---
+title: "Predicting Firm Location Decisions"
+author: "John Ohakim"
+date: "July 18, 2018"
+output: html_document
+---
+
+ The conventional statistical and econometric techniques, such as regression analysis, that are employed by economists often work well. However, given the issues that are unique to very large datasets, economic analysis may require the use of entirely different statistical tools. 
+
+  Varian (2014) identifies three of these issues: First, the size  of the data involved may require more powerful data manipulation tools, on which linear regressions perform poorly. Second, there may be more potential predictors than appropriate for estimation. Hence, the need to do some kind of variable selection arises which is outside our domain knowledge. Third, large datasets may allow for more flexible relationships than simple linear models. Machine learning and deep learning algorithms such as decision trees, Support Vector Machine (SVM), Random Forest, and Recurrent Neural Network (RNN), may allow for more effective ways to model complex relationships. The goal in this project is to employ economic data using machine learning and deep learning algorithms to answering a familiar economic question. 
+
+  Although the literature on Foreign Direct Investment (FDI) is vast, relatively less attention has been devoted to empirically analyzing the emergence of FDI from developing countries to other developing countries and the resulting effects of these flows in host and home countries. The emergence, and growth, of the operations of these multinational corporations from the South may have important implications for developing countries for a number of reasons. We propose to predict the location decisions, into developing country economies, of emerging market multinational firms and their developed country counterparts. 
+
+  To do this, we employ a novel sequential data set and RNN to see if it can predict the location decisions of firms. First, we gather the data fDi Markets data set of the Financial Times that tracks cross-border, greenfield investments across over two hundred countries worldwide, with real-time monitoring of investment projects, capital investment and job creation. Using an RNN algorithm, we split our dataset into a training and test set; the training is used to train the model, and the test used to predict our outcome variable, direction. This approach may provide a model that avoids overfitting and provides external validity. We compare the performance of this model with a baseline non-machine learning model. 
+
+
+```{r}
+gravity <- read.csv("C:/Users/johno/Dropbox/Econ Grad/Dissertation/Proposal/South-South/Paper_2/Data/Gravity.csv")
+
+knitr::kable(
+  head(gravity),
+  caption = "Glimpse of the Data Set"
+)
+
+names(gravity)
+str(gravity)
+summary(gravity)
+
+library(tidyverse)
+
+gravity$id <- with(gravity, ave(rep(1, nrow(gravity)), Year, FUN = seq_along))
+
+gravity <- gravity %>% select(id, Host_Country:NR, starts_with('id'))
+
+
+
+```
+
+
+
+Data Visualizations of Receiving/Host Economies
+
+```{r}
+
+ggplot(data = gravity) +
+  geom_line(mapping = aes(x = Year, y = FDI)) +
+  facet_wrap(~ Host_Country) +
+  ggtitle("FDI in Emerging Markets (2003-2015)")
+
+ggplot(data = gravity) +
+  stat_count(mapping = aes(x = Direction, fill = continent)) +
+  ggtitle("Direction of FDI Flows (North-South vs South-South)")
+  
+ggplot(data = gravity) +
+  geom_bar(
+  mapping = aes(x = Direction, y = ..prop.., group = 1)) +
+  ggtitle("Direction of FDI Flows (North-South vs South-South)")
+
+```

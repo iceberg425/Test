@@ -12,7 +12,25 @@ output: html_document
   Although the literature on Foreign Direct Investment (FDI) is vast, relatively less attention has been devoted to empirically analyzing the emergence of FDI from developing countries to other developing countries and the resulting effects of these flows in host and home countries. The emergence, and growth, of the operations of these multinational corporations from the South may have important implications for developing countries for a number of reasons. We seek to predict the location decisions, in developing country economies, of emerging market multinational firms and their developed country counterparts. 
 
   To do this, we employ a novel times series data set and RNN to see if it can predict the location decisions of firms. First, we gather the data fDi Markets data set of the Financial Times that tracks cross-border, greenfield investments across over two hundred countries worldwide, with real-time monitoring of investment projects, capital investment and job creation. Using the caret and keras packages, we split our dataset into a training and test set; the training set is used to train the model, and the test used to predict our outcome variable. This approach may provide a model that avoids overfitting and provides external, something that previous economic models fail to address in a convincing way. Finally, We compare the performance of this model with the baseline regression model.
+  
+  Data and Sources
+  
+  This dataset is constructed from four different data sources:
+1. fDi Markets of the Financial Times (https://www.fdimarkets.com/)
+A unique dataset that tracks cross-border, greenfield and brownfield investmemts across 200 countries worldwide, with realtime monitoring of investment projects, capital expenditure, and job creation.
 
+2. The Geodist database (http://www.cepii.fr/CEPII/en/bdd_modele/presentation.asp?id=30)
+This provides country-specific spatial features for over 225 countries.
+
+3. Total Economy database (https://www.conference-board.org/data/economydatabase/index.cfm?id=25667)
+This contains annual time series data on Gross Domestic Product, population, employment, labor productivity, and so on. 
+
+4. Worldwide Governance Indicators (http://info.worldbank.org/governance/wgi/index.aspx#home)
+This reports governance indicators which proxy for the quality of institutions in a country along 6 dimensions. 
+
+  Together, this dataset allows for the identification of the origin and destination of cross-border investments. This granularity permits the construction of a novel bilateral times series dataset, with over 30 variables/features over a 13 year period. 
+  
+  
 ```{r}
 gravity <- read.csv("C://Users//johno//Dropbox//Econ Grad//Dissertation//Proposal//South-South//Paper_2//Data//Gravity.csv")
 
